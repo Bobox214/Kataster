@@ -8,9 +8,11 @@ pub struct DrawBlinkTimer(pub Timer);
 pub fn start_menu(
     mut commands: Commands,
     runstate: ResMut<RunState>,
+    asset_server: Res<AssetServer>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
     if runstate.gamestate.entering(GameState::StartMenu) {
+        let font_handle = asset_server.load("kenvector_future.ttf");
         commands
             .spawn(NodeComponents {
                 style: Style {
@@ -38,7 +40,7 @@ pub fn start_menu(
                         },
                         text: Text {
                             value: "Kataster".to_string(),
-                            font: runstate.font_handle.clone(),
+                            font: font_handle.clone(),
                             style: TextStyle {
                                 font_size: 100.0,
                                 color: Color::rgb_u8(0x00, 0xAA, 0xAA),
@@ -55,7 +57,7 @@ pub fn start_menu(
                         },
                         text: Text {
                             value: "enter".to_string(),
-                            font: runstate.font_handle.clone(),
+                            font: font_handle.clone(),
                             style: TextStyle {
                                 font_size: 50.0,
                                 color: Color::rgb_u8(0x00, 0x44, 0x44),
@@ -74,9 +76,11 @@ pub fn start_menu(
 pub fn gameover_menu(
     mut commands: Commands,
     runstate: ResMut<RunState>,
+    asset_server: Res<AssetServer>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
     if runstate.gamestate.entering(GameState::GameOver) {
+        let font_handle = asset_server.load("kenvector_future.ttf");
         commands
             .spawn(NodeComponents {
                 style: Style {
@@ -104,7 +108,7 @@ pub fn gameover_menu(
                         },
                         text: Text {
                             value: "Game Over".to_string(),
-                            font: runstate.font_handle.clone(),
+                            font: font_handle.clone(),
                             style: TextStyle {
                                 font_size: 100.0,
                                 color: Color::rgb_u8(0xAA, 0x22, 0x22),
@@ -121,7 +125,7 @@ pub fn gameover_menu(
                         },
                         text: Text {
                             value: "enter".to_string(),
-                            font: runstate.font_handle.clone(),
+                            font: font_handle.clone(),
                             style: TextStyle {
                                 font_size: 50.0,
                                 color: Color::rgb_u8(0x88, 0x22, 0x22),
@@ -140,9 +144,11 @@ pub fn gameover_menu(
 pub fn pause_menu(
     mut commands: Commands,
     runstate: ResMut<RunState>,
+    asset_server: Res<AssetServer>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
     if runstate.gamestate.entering(GameState::Pause) {
+        let font_handle = asset_server.load("kenvector_future.ttf");
         commands
             .spawn(NodeComponents {
                 style: Style {
@@ -170,7 +176,7 @@ pub fn pause_menu(
                         },
                         text: Text {
                             value: "pause".to_string(),
-                            font: runstate.font_handle.clone(),
+                            font: font_handle,
                             style: TextStyle {
                                 font_size: 100.0,
                                 color: Color::rgb_u8(0xF8, 0xE4, 0x73),
@@ -203,6 +209,7 @@ pub fn game_ui_spawn(
         .gamestate
         .entering_not_from(GameState::Game, GameState::Pause)
     {
+        let font_handle = asset_server.load("kenvector_future.ttf");
         commands
             .spawn(NodeComponents {
                 style: Style {
@@ -238,7 +245,7 @@ pub fn game_ui_spawn(
                         },
                         text: Text {
                             value: "00".to_string(),
-                            font: runstate.font_handle.clone(),
+                            font: font_handle,
                             style: TextStyle {
                                 font_size: 50.0,
                                 color: Color::rgb_u8(0x00, 0xAA, 0xAA),

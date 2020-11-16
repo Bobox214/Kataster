@@ -67,6 +67,7 @@ fn main() {
         .add_system_to_stage("HANDLE_CONTACT", spawn_asteroid_system.system())
         .add_system_to_stage("HANDLE_EXPLOSION", spawn_explosion.system())
         .add_system_to_stage("HANDLE_RUNSTATE", runstate_fsm.system())
+        .add_resource(RunState::new(GameState::StartMenu))
         .run();
 }
 
@@ -96,9 +97,4 @@ pub fn setup(
         material: materials.add(texture_handle.into()),
         ..Default::default()
     });
-    commands.insert_resource(RunState::new(
-        GameState::StartMenu,
-        &asset_server,
-        materials,
-    ));
 }

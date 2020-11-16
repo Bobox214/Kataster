@@ -13,9 +13,11 @@ use bevy_rapier2d::{
 pub fn spawn_laser(
     mut commands: Commands,
     parent_body: &RigidBody,
-    runstate: &RunState,
+    asset_server: Res<AssetServer>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
     audio: Res<Audio>,
 ) {
+    let texture_handle = asset_server.load("laserRed07.png");
     let v = parent_body.position.rotation * Vector2::y() * 50.0;
     let body = RigidBodyBuilder::new_dynamic()
         .position(parent_body.position)
@@ -33,7 +35,7 @@ pub fn spawn_laser(
                 scale: Vec3::splat(1.0 / 18.0),
                 ..Default::default()
             },
-            material: runstate.laser_texture_handle.clone(),
+            material: materials.add(texture_handle.into()),
             ..Default::default()
         })
         .with(Laser {
@@ -44,7 +46,8 @@ pub fn spawn_laser(
         .with(ForStates {
             states: vec![GameState::Game, GameState::Pause, GameState::GameOver],
         });
-    audio.play(runstate.laser_audio_handle.clone());
+    let sound = asset_server.load("sfx_laser1.mp3");
+    audio.play(sound);
 }
 
 pub fn despawn_laser_system(
